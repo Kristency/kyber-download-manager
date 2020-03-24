@@ -29,7 +29,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -139,7 +139,7 @@
        <attribute name="title">
         <string>One Video</string>
        </attribute>
-       <widget class="QLineEdit" name="lineEdit_3">
+       <widget class="QLineEdit" name="lEdtVideoUrl">
         <property name="geometry">
          <rect>
           <x>140</x>
@@ -158,7 +158,7 @@
          <string>Enter video URL</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEdit_4">
+       <widget class="QLineEdit" name="lEdtVideoDownloadLocation">
         <property name="geometry">
          <rect>
           <x>140</x>
@@ -177,7 +177,7 @@
          <string>Use browse button to enter save location</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="pBtnVideoSaveLocation">
         <property name="geometry">
          <rect>
           <x>640</x>
@@ -190,7 +190,7 @@
          <string>B</string>
         </property>
        </widget>
-       <widget class="QProgressBar" name="progressBar_2">
+       <widget class="QProgressBar" name="pBarVideoDownload">
         <property name="geometry">
          <rect>
           <x>140</x>
@@ -203,7 +203,7 @@
          <number>0</number>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_4">
+       <widget class="QPushButton" name="pBtnVideoDownload">
         <property name="geometry">
          <rect>
           <x>320</x>
@@ -241,17 +241,17 @@
          <string>Video Quality</string>
         </property>
        </widget>
-       <widget class="QComboBox" name="comboBox">
+       <widget class="QComboBox" name="cBoxVideoQuality">
         <property name="geometry">
          <rect>
           <x>340</x>
           <y>170</y>
-          <width>261</width>
+          <width>201</width>
           <height>22</height>
          </rect>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_5">
+       <widget class="QPushButton" name="pBtnVideoData">
         <property name="geometry">
          <rect>
           <x>640</x>
