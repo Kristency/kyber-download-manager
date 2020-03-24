@@ -35,7 +35,7 @@
      <attribute name="title">
       <string>Tab 1</string>
      </attribute>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="pBtnFileDownload">
       <property name="geometry">
        <rect>
         <x>340</x>
@@ -54,7 +54,7 @@
        <string>Download</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit">
+     <widget class="QLineEdit" name="lEdtFileDownloadLink">
       <property name="geometry">
        <rect>
         <x>140</x>
@@ -73,7 +73,7 @@
        <string>Enter download link here</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_2">
+     <widget class="QLineEdit" name="lEdtFileDownloadLocation">
       <property name="geometry">
        <rect>
         <x>140</x>
@@ -92,7 +92,7 @@
        <string>Use browse button to enter save location</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QPushButton" name="pBtnFileSaveLocation">
       <property name="geometry">
        <rect>
         <x>640</x>
@@ -105,7 +105,7 @@
        <string>B</string>
       </property>
      </widget>
-     <widget class="QProgressBar" name="progressBar">
+     <widget class="QProgressBar" name="pBarFileDownload">
       <property name="geometry">
        <rect>
         <x>140</x>
