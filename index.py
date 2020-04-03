@@ -5,6 +5,7 @@ import sys
 import urllib
 import pafy
 import humanize
+import os
 
 from PyQt5.uic import loadUiType
 
@@ -30,9 +31,11 @@ class MainApp(QMainWindow, ui):
         # handles all buttons in the app
         self.pBtnFileDownload.clicked.connect(self.handle_file_download)
         self.pBtnVideoDownload.clicked.connect(self.handle_single_video_download)
+        self.pBtnPlaylistDownload.clicked.connect(self.handle_playlist_download)
         self.pBtnFileSaveLocation.clicked.connect(self.handle_file_save_location_selection)
         self.pBtnVideoData.clicked.connect(self.get_video_data)
         self.pBtnVideoSaveLocation.clicked.connect(self.handle_video_save_location_selection)
+        self.pBtnPlaylistSaveLocation.clicked.connect(self.handle_playlist_save_location_selection)
 
     def handle_file_progress(self, blocknum, blocksize, totalsize):
         # calculate the progress
@@ -58,18 +61,18 @@ class MainApp(QMainWindow, ui):
             QMessageBox.warning(self, 'Data Error', "Provide a valid URL or save location")
         else:
             try:
-                self.pBtnVideoDownload.setEnabled(False)
+                self.pBtnFileDownload.setEnabled(False)
                 urllib.request.urlretrieve(download_url, save_location, self.handle_file_progress)
             except Exception:
                 QMessageBox.warning(self, 'Download Error', "Can't download the file from the given URL")
-                self.pBtnVideoDownload.setEnabled(True)
+                self.pBtnFileDownload.setEnabled(True)
                 return
 
             QMessageBox.information(self, 'Download Completed', 'The download completed successfully')
             self.lEdtFileDownloadLink.setText('')
             self.lEdtFileDownloadLocation.setText('')
             self.pBarFileDownload.setValue(0)
-            self.pBtnVideoDownload.setEnabled(True)
+            self.pBtnFileDownload.setEnabled(True)
 
     ############################################# YOUTUBE SINGLE VIDEO DOWNLOAD #################################
 
@@ -80,6 +83,7 @@ class MainApp(QMainWindow, ui):
         else:
             video = pafy.new(video_url)
             video_streams = video.streams
+            self.cBoxVideoQuality.clear()
             for stream in video_streams:
                 size = humanize.naturalsize(stream.get_filesize())
                 data = f'{stream.extension}  {stream.quality}  {size}'
@@ -101,12 +105,17 @@ class MainApp(QMainWindow, ui):
         elif not self.cBoxVideoQuality.currentText():
             QMessageBox.warning(self, 'Data Error', "Please choose a video quality")
         else:
-            self.pBtnVideoDownload.setEnabled(False)
-            video = pafy.new(video_url)
-            video_streams = video.streams
-            video_quality = self.cBoxVideoQuality.currentIndex()
-            # download = video_streams[video_quality].download(
-            #     filepath=save_location, callback=self.handle_single_video_progress)
+            try:
+                self.pBtnVideoDownload.setEnabled(False)
+                video = pafy.new(video_url)
+                video_streams = video.streams
+                video_quality = self.cBoxVideoQuality.currentIndex()
+                download = video_streams[video_quality].download(
+                    filepath=save_location, callback=self.handle_single_video_progress)
+            except Exception:
+                QMessageBox.warning(self, 'Download Error', "Can't download the video from the given URL")
+                self.pBtnVideoDownload.setEnabled(True)
+                return
 
             QMessageBox.information(self, 'Download Completed', 'The download completed successfully')
             self.lEdtVideoUrl.setText('')
@@ -121,6 +130,62 @@ class MainApp(QMainWindow, ui):
             download_percentage = read_data*100/total
             self.pBarVideoDownload.setValue(download_percentage)
             QApplication.processEvents()
+
+    ############################################# YOUTUBE PLAYLIST DOWNLOAD ##################################
+
+    def handle_playlist_download(self):
+        playlist_url = self.lEdtPlaylistUrl.text()
+        save_location = self.lEdtPlaylistDownloadLocation.text()
+
+        if not playlist_url or not save_location:
+            QMessageBox.warning(self, 'Data Error', "Provide a valid playlist URL or save location")
+        else:
+            try:
+                self.pBtnPlaylistDownload.setEnabled(False)
+                playlist = pafy.get_playlist(playlist_url)
+                playlist_videos = playlist['items']
+                quality = self.cBoxPlaylistVideoQuality.currentIndex()
+
+                total_video_count = len(playlist_videos)
+                current_video_number = 1
+                self.lblCurrentVideoNumber.setText(str(current_video_number))
+                self.lblTotalVideoCount.setText(str(total_video_count))
+
+                os.chdir(save_location)
+                if os.path.exists(playlist['title']):
+                    os.chdir(playlist['title'])
+                else:
+                    os.mkdir(playlist['title'])
+                    os.chdir(playlist['title'])
+
+                    for video in playlist_videos:
+                        current_video = video['pafy']
+                        current_video_streams = current_video.streams
+                        download = current_video_streams[quality].download(callback=self.handle_playlist_progress)
+                        current_video_number += 1
+                        self.lblCurrentVideoNumber.setText(str(current_video_number))
+            except Exception:
+                QMessageBox.warning(self, 'Download Error', "Can't download the playlist from the given URL")
+                self.pBtnPlaylistDownload.setEnabled(True)
+                return
+
+            QMessageBox.information(self, 'Download Completed', 'The download completed successfully')
+            self.lEdtPlaylistUrl.setText('')
+            self.lEdtPlaylistDownloadLocation.setText('')
+            self.pBarPlaylistDownload.setValue(0)
+            self.pBtnPlaylistDownload.setEnabled(True)
+
+    def handle_playlist_progress(self, total, received, ratio, rate, time):
+        read_data = received
+        if total > 0:
+            download_percentage = read_data*100/total
+            self.pBarPlaylistDownload.setValue(download_percentage)
+            QApplication.processEvents()
+
+    def handle_playlist_save_location_selection(self):
+        playlist_save_location = QFileDialog.getExistingDirectory(self, 'Select Download Directory')
+
+        self.lEdtPlaylistDownloadLocation.setText(playlist_save_location)
 
 
 def main():
