@@ -4,26 +4,78 @@ from PyQt5.QtWidgets import *
 import sys
 import urllib
 import pafy
-import humanize
 import os
 
-from PyQt5.uic import loadUiType
+from main import Ui_MainWindow
 
 
-ui, _ = loadUiType('main.ui')
-
-
-class MainApp(QMainWindow, ui):
+class MainApp(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainApp, self).__init__(parent)
         QMainWindow.__init__(self)
         self.setupUi(self)
         self.initUi()
         self.handle_buttons()
+        self.suffixes = {
+            "decimal": ("kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"),
+            "binary": ("KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"),
+            "gnu": "KMGTPEZY",
+        }
 
     def initUi(self):
         # contain all ui changes in the initial loading
         self.tabWidgetMain.tabBar().setVisible(False)
+        with open('themes/current_theme.txt', 'r') as f:
+            current_theme = f.read()
+            if current_theme != 'default':
+                with open(f'themes/{current_theme}', 'r') as stylesheet:
+                    style = stylesheet.read()
+                    self.setStyleSheet(style)
+
+    # humanize module code because it was not working after making exe with cx_freeze
+    # was giving module not found error.
+
+    """Bits & Bytes related humanization."""
+
+    def naturalsize(self, value, binary=False, gnu=False, format="%.1f"):
+        """Format a number of bytes like a human readable filesize (eg. 10 kB).
+        By default, decimal suffixes (kB, MB) are used.
+        Non-gnu modes are compatible with jinja2's ``filesizeformat`` filter.
+        Args:
+            value (int, float, string): Integer to convert.
+            binary (Boolean): If `True`, uses binary suffixes (KiB, MiB) with base 2**10
+            instead of 10**3.
+            gnu (Boolean): If `True`, the binary argument is ignored and GNU-style
+            (`ls -sh` style) prefixes are used (K, M) with the 2**10 definition.
+            format (str): Custom formatter.
+        """
+        if gnu:
+            suffix = self.suffixes["gnu"]
+        elif binary:
+            suffix = self.suffixes["binary"]
+        else:
+            suffix = self.suffixes["decimal"]
+
+        base = 1024 if (gnu or binary) else 1000
+        bytes = float(value)
+        abs_bytes = abs(bytes)
+
+        if abs_bytes == 1 and not gnu:
+            return "%d Byte" % bytes
+        elif abs_bytes < base and not gnu:
+            return "%d Bytes" % bytes
+        elif abs_bytes < base and gnu:
+            return "%dB" % bytes
+
+        for i, s in enumerate(suffix):
+            unit = base ** (i + 2)
+            if abs_bytes < unit and not gnu:
+                return (format + " %s") % ((base * bytes / unit), s)
+            elif abs_bytes < unit and gnu:
+                return (format + "%s") % ((base * bytes / unit), s)
+        if gnu:
+            return (format + "%s") % ((base * bytes / unit), s)
+        return (format + " %s") % ((base * bytes / unit), s)
 
     ############################## FILE DOWNLOAD ################################
 
@@ -95,7 +147,7 @@ class MainApp(QMainWindow, ui):
             video_streams = video.streams
             self.cBoxVideoQuality.clear()
             for stream in video_streams:
-                size = humanize.naturalsize(stream.get_filesize())
+                size = self.naturalsize(stream.get_filesize())
                 data = f'{stream.extension}  {stream.quality}  {size}'
                 self.cBoxVideoQuality.addItem(data)
 
@@ -215,21 +267,35 @@ class MainApp(QMainWindow, ui):
 
     def apply_default_theme(self):
         self.setStyleSheet('')
+        with open('themes/current_theme.txt', 'w') as f:
+            f.write('default')
 
     def apply_qdark_theme(self):
         self.setStyleSheet('')
-        style = open('themes/qdark.qss', 'r').read()
-        self.setStyleSheet(style)
+        with open('themes/qdark.qss', 'r') as stylesheet:
+            style = stylesheet.read()
+            self.setStyleSheet(style)
+
+        with open('themes/current_theme.txt', 'w') as f:
+            f.write('qdark.qss')
 
     def apply_qdarkgray_theme(self):
         self.setStyleSheet('')
-        style = open('themes/qdarkgray.qss', 'r').read()
-        self.setStyleSheet(style)
+        with open('themes/qdarkgray.qss', 'r') as stylesheet:
+            style = stylesheet.read()
+            self.setStyleSheet(style)
+
+        with open('themes/current_theme.txt', 'w') as f:
+            f.write('qdarkgray.qss')
 
     def apply_darkblue_theme(self):
         self.setStyleSheet('')
-        style = open('themes/darkblue.qss', 'r').read()
-        self.setStyleSheet(style)
+        with open('themes/darkblue.qss', 'r') as stylesheet:
+            style = stylesheet.read()
+            self.setStyleSheet(style)
+
+        with open('themes/current_theme.txt', 'w') as f:
+            f.write('darkblue.qss')
 
 
 def main():
