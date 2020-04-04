@@ -22,8 +22,8 @@ class MainApp(QMainWindow, ui):
         self.handle_buttons()
 
     def initUi(self):
-        # contain all ui changes in loading
-        pass
+        # contain all ui changes in the initial loading
+        self.tabWidgetMain.tabBar().setVisible(False)
 
     ############################## FILE DOWNLOAD ################################
 
@@ -36,6 +36,16 @@ class MainApp(QMainWindow, ui):
         self.pBtnVideoData.clicked.connect(self.get_video_data)
         self.pBtnVideoSaveLocation.clicked.connect(self.handle_video_save_location_selection)
         self.pBtnPlaylistSaveLocation.clicked.connect(self.handle_playlist_save_location_selection)
+
+        self.pBtnHomeTab.clicked.connect(self.open_home)
+        self.pBtnFileDownloadTab.clicked.connect(self.open_file_download)
+        self.pBtnVideoDownloadTab.clicked.connect(self.open_video_download)
+        self.pBtnSettingsTab.clicked.connect(self.open_settings)
+
+        self.pBtnDefaultTheme.clicked.connect(self.apply_default_theme)
+        self.pBtnQDarkTheme.clicked.connect(self.apply_qdark_theme)
+        self.pBtnQDarkGrayTheme.clicked.connect(self.apply_qdarkgray_theme)
+        self.pBtnDarkBlueTheme.clicked.connect(self.apply_darkblue_theme)
 
     def handle_file_progress(self, blocknum, blocksize, totalsize):
         # calculate the progress
@@ -187,10 +197,45 @@ class MainApp(QMainWindow, ui):
 
         self.lEdtPlaylistDownloadLocation.setText(playlist_save_location)
 
+    ############################################# UI CHANGE METHODS ###########################################
+
+    def open_home(self):
+        self.tabWidgetMain.setCurrentIndex(0)
+
+    def open_file_download(self):
+        self.tabWidgetMain.setCurrentIndex(1)
+
+    def open_video_download(self):
+        self.tabWidgetMain.setCurrentIndex(2)
+
+    def open_settings(self):
+        self.tabWidgetMain.setCurrentIndex(3)
+
+    ############################################# APP THEME METHODS ###########################################
+
+    def apply_default_theme(self):
+        self.setStyleSheet('')
+
+    def apply_qdark_theme(self):
+        self.setStyleSheet('')
+        style = open('themes/qdark.qss', 'r').read()
+        self.setStyleSheet(style)
+
+    def apply_qdarkgray_theme(self):
+        self.setStyleSheet('')
+        style = open('themes/qdarkgray.qss', 'r').read()
+        self.setStyleSheet(style)
+
+    def apply_darkblue_theme(self):
+        self.setStyleSheet('')
+        style = open('themes/darkblue.qss', 'r').read()
+        self.setStyleSheet(style)
+
 
 def main():
     app = QApplication(sys.argv)
     window = MainApp()
+    window.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)  # to disable maximize button
     window.show()
     app.exec_()
 
