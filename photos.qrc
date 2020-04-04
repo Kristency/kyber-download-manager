@@ -1,7 +1,12 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
     <qresource>
-        <file>icons/</file>
-        <file>icons/</file>
+        <file>icons/home.png</file>
+        <file>icons/download.png</file>
+        <file>icons/youtube.png</file>
+        <file>icons/setting.png</file>
+        <file>icons/save.png</file>
+        <file>icons/arrow.png</file>
+        <file>icons/kyber.jpg</file>
     </qresource>
 </RCC>

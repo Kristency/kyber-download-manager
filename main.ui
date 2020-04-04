@@ -41,12 +41,73 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab_5">
      <attribute name="title">
       <string>Page</string>
      </attribute>
+     <widget class="QLabel" name="label_6">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>20</y>
+        <width>231</width>
+        <height>411</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="photos.qrc">:/icons/kyber.jpg</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_7">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>180</y>
+        <width>451</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>13</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Download files, youtube videos and playlists</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_8">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>370</y>
+        <width>181</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>9</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Made by: Subhajit Nandi Github repo &lt;a href=&quot;https://github.com/Kristency/kyber-download-manager&quot;&gt;here&lt;/a&gt;</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+      <property name="openExternalLinks">
+       <bool>true</bool>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -119,7 +180,17 @@
        </rect>
       </property>
       <property name="text">
-       <string>B</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="photos.qrc">
+        <normaloff>:/icons/save.png</normaloff>:/icons/save.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>30</width>
+        <height>30</height>
+       </size>
       </property>
      </widget>
      <widget class="QProgressBar" name="pBarFileDownload">
@@ -204,7 +275,17 @@
          </rect>
         </property>
         <property name="text">
-         <string>B</string>
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="photos.qrc">
+          <normaloff>:/icons/save.png</normaloff>:/icons/save.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
         </property>
        </widget>
        <widget class="QProgressBar" name="pBarVideoDownload">
@@ -278,7 +359,17 @@
          </rect>
         </property>
         <property name="text">
-         <string>G</string>
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="photos.qrc">
+          <normaloff>:/icons/arrow.png</normaloff>:/icons/arrow.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>25</width>
+          <height>25</height>
+         </size>
         </property>
        </widget>
       </widget>
@@ -386,7 +477,17 @@
          </rect>
         </property>
         <property name="text">
-         <string>B</string>
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="photos.qrc">
+          <normaloff>:/icons/save.png</normaloff>:/icons/save.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
         </property>
        </widget>
        <widget class="QPushButton" name="pBtnPlaylistDownload">
@@ -583,7 +684,17 @@
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="photos.qrc">
+      <normaloff>:/icons/home.png</normaloff>:/icons/home.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>60</width>
+      <height>60</height>
+     </size>
     </property>
    </widget>
    <widget class="QPushButton" name="pBtnFileDownloadTab">
@@ -596,7 +707,17 @@
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="photos.qrc">
+      <normaloff>:/icons/download.png</normaloff>:/icons/download.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>60</width>
+      <height>60</height>
+     </size>
     </property>
    </widget>
    <widget class="QPushButton" name="pBtnVideoDownloadTab">
@@ -609,7 +730,17 @@
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="photos.qrc">
+      <normaloff>:/icons/youtube.png</normaloff>:/icons/youtube.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>60</width>
+      <height>60</height>
+     </size>
     </property>
    </widget>
    <widget class="QPushButton" name="pBtnSettingsTab">
@@ -622,7 +753,17 @@
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="photos.qrc">
+      <normaloff>:/icons/setting.png</normaloff>:/icons/setting.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>60</width>
+      <height>60</height>
+     </size>
     </property>
    </widget>
   </widget>
@@ -638,6 +779,8 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="photos.qrc"/>
+ </resources>
  <connections/>
 </ui>
